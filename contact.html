@@ -40,7 +40,6 @@
     img{max-width:100%; display:block}
     .container{max-width:1120px; margin:0 auto; padding:0 18px}
 
-    /* Header */
     header{
       position:sticky; 
       top:0; 
@@ -64,7 +63,6 @@
       border-color:transparent
     }
 
-    /* Hero/About */
     .hero{padding:36px 0 16px}
     .about{
       display:grid; 
@@ -106,11 +104,20 @@
         margin: 0;
         margin-bottom: 20px;
     }
-
     .section-title h2 {
         margin: 0 15px;
         font-size: 24px;
         white-space: nowrap;
+        background: linear-gradient(90deg, #f0f0f0, #7d7d7d, #f0f0f0);
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: text-gradient-animation 4s linear infinite;
+    }
+    @keyframes text-gradient-animation {
+      to {
+        background-position: 200% center;
+      }
     }
 
     .section-title::before,
@@ -143,10 +150,66 @@
       border: 3px solid var(--line); 
     }
     
+    .profile-name-container {
+        display: flex;
+        align-items: center;
+        width: 100%; 
+    }
+
+    .profile-name-container::before,
+    .profile-name-container::after {
+        content: '';
+        flex-grow: 1;
+        height: 1px;
+        background: var(--line);
+    }
+    
     .profile-name {
       font-size: 20px;
       font-weight: 800;
-      margin: 0;
+      margin: 0 10px; 
+      background: linear-gradient(45deg, #ff00c8, #008cff, #ff00c8, #008cff);
+      background-size: 400% 400%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradient-animation 10s ease infinite;
+    }
+
+    @keyframes gradient-animation {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+
+    .fading-text {
+      font-size: 1.1em;
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      gap: 8px; 
+    }
+
+    .fading-text span {
+        background: linear-gradient(45deg, #e5e7eb, #94a3b8, #475569);
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: fading-text-gradient 5s linear infinite alternate;
+    }
+
+    .fading-text .kanji {
+        font-family: 'Inter', system-ui, 'Segoe UI', sans-serif; 
+        background: linear-gradient(45deg, #e5e7eb, #94a3b8, #475569); 
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: fading-text-gradient 5s linear infinite alternate;
+    }
+
+    @keyframes fading-text-gradient {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
     }
 
     .contact-list {
@@ -180,8 +243,11 @@
       justify-content: center;
     }
     
-    .contact-item .icon svg {
-        fill: var(--text);
+    .contact-item .icon img {
+        width: 70%;
+        height: 70%;
+        object-fit: contain;
+        border-radius: 0;
     }
 
     .contact-item .text {
@@ -189,10 +255,8 @@
       font-size: 1.1em;
     }
 
-    /* Footer */
     footer{padding:40px 0 60px; color:var(--muted); border-top:1px solid rgba(148,163,184,.14); margin-top:30px; text-align: center;}
 
-    /* Animations */
     @keyframes fadeInBlock {
       from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
@@ -224,7 +288,7 @@
       <div class="about animate-fade">
         <div>
           <h1>Contact Me</h1>
-          <p>You can reach me through the platforms below.</p>
+          <p>Contact me if you have questions or requests for collaboration.</p>
         </div>
       </div>
     </section>
@@ -232,34 +296,39 @@
     <section class="card animate-fade">
       <div class="profile-section">
         <img class="profile-picture" src="https://media1.tenor.com/m/urChzCzOV3QAAAAd/kaoru-hana-wa-rin-to-saku-the-fragrant-flower.gif" alt="Profile Picture"/>
-        <h3 class="profile-name">ysurtod</h3>
-        <p class="muted-text">Surya Putra Adhi Prastya</p>
+        <div class="profile-name-container">
+            <h3 class="profile-name">ysurtod</h3>
+        </div>
+        <p class="fading-text">
+            <span>Surya Putra Adhi Prastya</span> 
+            <span class="kanji">悪役</span>
+        </p>
       </div>
       <div class="contact-list">
         <div class="section-title">
-          <h2>Connect With Me</h2>
+          <h2>Social Media</h2>
         </div>
         <a class="contact-item" href="https://t.me/ysurtod" target="_blank">
           <div class="icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-2.133 16.738c-1.396.657-2.128.694-2.736.326-.816-.492-1.205-1.127-1.111-2.428.026-.411.189-.838.411-1.258.918-1.713 2.193-4.102 2.684-4.283.473-.178 1.053.111 1.037.747-.023.906-1.124 3.033-1.428 3.51-.157.247-.28.435-.14.654.195.326.655.097 1.155-.075.298-.103.585-.224.84-.37.942-.544 1.168-.788 1.543-1.109.288-.239.526-.431.62-.48.24-.12.441-.184.606-.184.442.001.787.202.956.417.168.217.22.607.135 1.124-.469 2.894-1.928 4.673-3.692 4.673-.623 0-1.18-.328-1.574-.824z"/></svg>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Telegram_logo.svg/512px-Telegram_logo.svg.png" alt="Telegram Logo"/>
           </div>
           <span class="text">Telegram</span>
         </a>
         <a class="contact-item" href="https://instagram.com/ysurtod" target="_blank">
           <div class="icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm6.273 8.356c-.078.696-.328 1.815-.465 2.132-.234.549-.691.758-1.229.621-1.125-.286-1.583-.497-2.92-.992-.897-.323-1.637-.624-2.618-1.018-.748-.297-1.401-.557-1.748-.683-.435-.157-.841-.219-1.282.029-.214.123-.397.355-.54.672-.119.26-.145.474-.15.82-.016.924.238 2.067.457 2.91.132.518.265 1.037.397 1.554.108.423.232.896.353 1.368.125.496.096.657-.04.767-.354.29-1.21.042-1.996-.539-.817-.604-1.428-1.405-2.022-2.316-.279-.425-.572-.888-.857-1.353-.264-.43-.518-.847-.732-1.246-.073-.134-.143-.266-.21-.397-.478-.813-.933-1.583-1.332-2.339-.379-.714-.693-1.396-.759-1.579-.199-.548-.124-1.248.243-1.78.36-.525.962-.821 1.633-.821.571.004 1.144.116 1.706.358.384.164.733.355 1.082.553.53.308.971.57 1.359.789.704.385 1.348.74 2.155 1.139.736.368 1.488.75 2.219 1.112.146.074.288.146.43.22.427.228.847.45 1.258.675.244.135.452.25.642.368.64.394 1.256.772 1.774 1.096.345.215.65.412.825.493.593.277.935.093 1.044-.222.18-.519.141-1.346.077-1.897-.04-.366-.095-.733-.146-1.127-.146-.967-.282-1.94-.413-2.91-.07-.518-.135-1.037-.197-1.55-.084-.695-.121-1.284-.124-1.637.01-1.076.621-1.472 1.691-1.112 1.09.367 1.833 1.485 2.502 2.379.351.48.718 1.048.978 1.745.289.786.495 1.614.54 2.51.045.908.125 1.838.252 2.766.126.924.238 1.85.342 2.778.026.236.05.474.072.712.137 1.517-.655 2.768-2.122 3.093-.976.216-1.977-.07-2.903-.836-.85-.69-1.64-1.5-2.261-2.433z"/></svg>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/960px-Instagram_icon.png" alt="Instagram Logo"/>
           </div>
           <span class="text">Instagram</span>
         </a>
         <a class="contact-item" href="https://facebook.com/ysurtod" target="_blank">
           <div class="icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-2.469 18.067c-1.18.232-1.319.186-2.522-.057-.156-.032-.314-.047-.471-.051-2.029-.059-4.041.512-5.352 2.066.905-.445 1.776-.948 2.659-1.458 1.267-.732 2.559-1.439 3.868-2.115.688-.358 1.341-.716 1.944-1.066.828-.485 1.378-.716 2.062-1.026.541-.243 1.022-.486 1.36-.677.382-.218.729-.408 1.055-.589.673-.374 1.328-.73 2.021-1.077.585-.302 1.078-.544 1.543-.758 1.13-.52 2.036-.917 2.721-1.272.716-.372 1.258-.619 1.62-.767.876-.363 1.353-.61 1.733-.746.495-.176.844-.316 1.062-.392.29-.102.508-.192.65-.259.109-.052.179-.085.204-.099.385-.224.707-.378.895-.461.272-.121.492-.164.664-.132.327.061.536.257.654.6.14.417.075.877-.282 1.484-.257.447-.643.953-1.144 1.532-.158.183-.346.398-.564.646-.245.275-.51.58-.781.905-.333.398-.67.807-1.002 1.218-.328.402-.676.828-1.001 1.229-.413.513-.807.971-1.18 1.379-.328.369-.652.717-.962 1.037-1.225 1.25-2.618 2.55-4.148 3.829-1.286 1.071-2.583 2.126-3.87 3.161-1.096.883-2.112 1.706-3.007 2.456-1.026.852-1.745 1.148-2.628 1.02-.622-.09-.997-.47-1.054-1.024-.075-.724.161-1.446.591-1.996.16-.208.33-.404.509-.59z"/></svg>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/960px-Facebook_Logo_%282019%29.png" alt="Facebook Logo"/>
           </div>
           <span class="text">Facebook</span>
         </a>
         <a class="contact-item" href="https://wa.me/62085934709205" target="_blank">
             <div class="icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.918.001-6.623 5.372-12 12-12 3.03 0 5.874 1.196 8.05 3.373 2.176 2.176 3.372 5.018 3.373 8.047.001 6.623-5.37 12-12.002 12-1.972 0-3.922-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.424.743 3.008 1.147 4.591 1.148h.003c5.845 0 10.607-4.761 10.607-10.605s-4.762-10.605-10.607-10.605-10.604 4.761-10.604 10.605c0 2.053.547 4.045 1.558 5.836l.135.245 1.54 5.618-5.83-1.529zm2.493-2.768l-1.392-.724c-.097-.051-.186-.062-.39-.062c-.114 0-.171.018-.225.034-.145.05-1.127.46-1.314.542-.142.062-.267.127-.267.127-.144.07-.48.271-.47.662.005.197.35.385.494.506.145.118.248.169.452.261.204.091.299.166.453.308.571.536 1.458 1.267 2.14 1.543.167.073.352.126.54.126.216 0 .399-.071.544-.191.144-.122.251-.271.39-.42.14-.15.228-.27.473-.321.245-.052.417-.052.571-.052.167 0 .43.082.721.203.292.119.567.245.837.47.168.14.37.22.659.22.404-.001 1.05-.724 1.258-.871.209-.148.423-.298.599-.413.175-.116.321-.219.531-.482.21-.261.325-.565.418-.845.071-.212.118-.344.093-.454-.025-.109-.138-.17-.291-.252-.153-.082-.369-.191-.567-.301-.269-.153-1.051-.577-1.13-.615-.078-.037-.167-.043-.255-.043z"/></svg>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/512px-WhatsApp.svg.png" alt="WhatsApp Logo"/>
             </div>
             <span class="text">WhatsApp</span>
         </a>
@@ -269,7 +338,366 @@
 
   <footer>
     <div class="container" style="text-align:center">
-      <div>© 2025 ysurtod</div>
+      <div>©ysurtod</div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.15 });
+
+      document.querySelectorAll('.animate-fade').forEach(el => observer.observe(el));
+      document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    });
+  </script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact Me - ysurtod</title>
+  <meta name="description" content="Contact page to reach ysurtod." />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b0f19; --panel:rgba(15, 23, 42, 0.4); 
+      --text:#e5e7eb; --muted:#94a3b8; --line:#1f2937;
+      --brand:#2196f3; 
+      --brand-2:#03a9f4; 
+      --radius:16px; --shadow:0 10px 30px rgba(2,6,23,.35);
+      --overlay: rgba(2, 6, 23, 0.6);
+    }
+    :root.light{ 
+      --bg:#f8fafc; --panel:rgba(255, 255, 255, 0.6); 
+      --text:#0f172a; --muted:#475569; --line:#e5e7eb; 
+      --brand:#2196f3; 
+      --brand-2:#03a9f4; 
+      --shadow:0 10px 30px rgba(2,6,23,.08); --overlay: rgba(15, 23, 42, 0.35); 
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0; 
+      font-family:Inter,system-ui,Segoe UI; 
+      background-image: url('https://media1.tenor.com/m/53I_s_sx9ncAAAAC/black-space-stars.gif');
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center;
+      color:var(--text);
+    }
+    a{color:inherit; text-decoration:none}
+    img{max-width:100%; display:block}
+    .container{max-width:1120px; margin:0 auto; padding:0 18px}
+
+    header{
+      position:sticky; 
+      top:0; 
+      z-index:50; 
+      backdrop-filter: blur(15px);
+      background: rgba(15, 23, 42, 0.4);
+      border-bottom:1px solid rgba(148,163,184,.14)
+    }
+    :root.light header{background:linear-gradient(180deg,rgba(255,255,255,.5),rgba(255,255,255,.3)); backdrop-filter: blur(15px);}
+    .nav{display:flex; align-items:center; justify-content:space-between; padding:14px 0}
+    .brand{display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.3px}
+    .nav a{padding:10px 12px; border-radius:10px; color:var(--muted)}
+    .nav a:hover, .nav a:focus{outline:none; color:var(--text); background:rgba(56,189,248,.08)}
+    .actions{display:flex; align-items:center; gap:10px}
+    .btn{display:inline-flex; align-items:center; gap:10px; padding:10px 14px; border-radius:12px; border:1px solid rgba(148,163,184,.15); background:var(--panel); box-shadow:var(--shadow); cursor:pointer}
+    .btn:hover{filter:brightness(1.05)}
+    .btn.primary{
+      background:linear-gradient(135deg,var(--brand),var(--brand-2)); 
+      color:#00121f; 
+      font-weight:700; 
+      border-color:transparent
+    }
+
+    .hero{padding:36px 0 16px}
+    .about{
+      display:grid; 
+      grid-template-columns:1fr; 
+      gap:16px; 
+      background: rgba(15, 23, 42, 0.4);
+      backdrop-filter: blur(10px);
+      border:1px solid rgba(148,163,184,.14); 
+      padding:20px; 
+      border-radius:var(--radius);
+    }
+    .about h1{margin:0 0 10px; font-size:clamp(22px,5vw,32px)}
+    .about p{margin:0; color:var(--muted)}
+
+    /* Card */
+    .card {
+      background: rgba(15, 23, 42, 0.4); 
+      backdrop-filter: blur(10px); 
+      border: 1px solid rgba(148, 163, 184, .14);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+      margin-top: 30px;
+      display: grid;
+      gap: 20px;
+    }
+    
+    @media(min-width: 768px) {
+      .card {
+        grid-template-columns: 1fr 2fr;
+        align-items: flex-start;
+      }
+    }
+    
+    .section-title {
+        display: flex;
+        align-items: center;
+        text-align: center;
+        margin: 0;
+        margin-bottom: 20px;
+    }
+    .section-title h2 {
+        margin: 0 15px;
+        font-size: 24px;
+        white-space: nowrap;
+        background: linear-gradient(90deg, #f0f0f0, #7d7d7d, #f0f0f0);
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: text-gradient-animation 4s linear infinite;
+    }
+    @keyframes text-gradient-animation {
+      to {
+        background-position: 200% center;
+      }
+    }
+
+    .section-title::before,
+    .section-title::after {
+        content: '';
+        flex-grow: 1;
+        height: 1px;
+        background: var(--line);
+    }
+
+    .card h2 {
+      margin-top: 0;
+      font-size: 24px;
+    }
+
+    .profile-section {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      background: transparent; 
+    }
+
+    .profile-picture {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--line); 
+    }
+    
+    .profile-name-container {
+        display: flex;
+        align-items: center;
+        width: 100%; 
+    }
+
+    .profile-name-container::before,
+    .profile-name-container::after {
+        content: '';
+        flex-grow: 1;
+        height: 1px;
+        background: var(--line);
+    }
+    
+    .profile-name {
+      font-size: 20px;
+      font-weight: 800;
+      margin: 0 10px; 
+      background: linear-gradient(45deg, #ff00c8, #008cff, #ff00c8, #008cff);
+      background-size: 400% 400%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradient-animation 10s ease infinite;
+    }
+
+    @keyframes gradient-animation {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+
+    .fading-text {
+      font-size: 1.1em;
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      gap: 8px; 
+    }
+
+    .fading-text span {
+        background: linear-gradient(45deg, #e5e7eb, #94a3b8, #475569);
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: fading-text-gradient 5s linear infinite alternate;
+    }
+
+    .fading-text .kanji {
+        font-family: 'Inter', system-ui, 'Segoe UI', sans-serif; 
+        background: linear-gradient(45deg, #e5e7eb, #94a3b8, #475569); 
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: fading-text-gradient 5s linear infinite alternate;
+    }
+
+    @keyframes fading-text-gradient {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+
+    .contact-list {
+      margin-top: 20px;
+      background: transparent;
+    }
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 15px;
+      background: rgba(15, 23, 42, 0.4); 
+      backdrop-filter: blur(5px); 
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); 
+      transition: transform 0.2s ease-in-out;
+    }
+
+    .contact-item:hover {
+      transform: translateY(-3px); 
+    }
+
+    .contact-item .icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(148, 163, 184, .1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .contact-item .icon img {
+        width: 70%;
+        height: 70%;
+        object-fit: contain;
+        border-radius: 0;
+    }
+
+    .contact-item .text {
+      font-weight: 600;
+      font-size: 1.1em;
+    }
+
+    footer{padding:40px 0 60px; color:var(--muted); border-top:1px solid rgba(148,163,184,.14); margin-top:30px; text-align: center;}
+
+    @keyframes fadeInBlock {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade { animation: fadeInBlock .8s ease-out forwards; }
+
+    .fade-in { opacity: 0; transform: translateY(30px); transition: all .6s ease-out; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a class="brand" href="index.html"><span>ysurtod</span></a>
+      <nav class="menu" aria-label="Main menu">
+        <a href="about.html">About</a>
+        <a href="index.html">Project</a>
+      </nav>
+      <div class="actions">
+        <div class="nav-right">
+          <a href="contact.html" class="btn primary">Contact Me</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="about animate-fade">
+        <div>
+          <h1>Contact Me</h1>
+          <p>Contact me if you have questions or requests for collaboration.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card animate-fade">
+      <div class="profile-section">
+        <img class="profile-picture" src="https://media1.tenor.com/m/urChzCzOV3QAAAAd/kaoru-hana-wa-rin-to-saku-the-fragrant-flower.gif" alt="Profile Picture"/>
+        <div class="profile-name-container">
+            <h3 class="profile-name">ysurtod</h3>
+        </div>
+        <p class="fading-text">
+            <span>Surya Putra Adhi Prastya</span> 
+            <span class="kanji">悪役</span>
+        </p>
+      </div>
+      <div class="contact-list">
+        <div class="section-title">
+          <h2>Social Media</h2>
+        </div>
+        <a class="contact-item" href="https://t.me/ysurtod" target="_blank">
+          <div class="icon">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Telegram_logo.svg/512px-Telegram_logo.svg.png" alt="Telegram Logo"/>
+          </div>
+          <span class="text">Telegram</span>
+        </a>
+        <a class="contact-item" href="https://instagram.com/ysurtod" target="_blank">
+          <div class="icon">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/960px-Instagram_icon.png" alt="Instagram Logo"/>
+          </div>
+          <span class="text">Instagram</span>
+        </a>
+        <a class="contact-item" href="https://facebook.com/ysurtod" target="_blank">
+          <div class="icon">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/960px-Facebook_Logo_%282019%29.png" alt="Facebook Logo"/>
+          </div>
+          <span class="text">Facebook</span>
+        </a>
+        <a class="contact-item" href="https://wa.me/62085934709205" target="_blank">
+            <div class="icon">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/512px-WhatsApp.svg.png" alt="WhatsApp Logo"/>
+            </div>
+            <span class="text">WhatsApp</span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container" style="text-align:center">
+      <div>©ysurtod</div>
     </div>
   </footer>
 
