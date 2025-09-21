@@ -51,19 +51,17 @@
     .btn { display:inline-flex; padding:10px 14px; border-radius:12px; border:1px solid rgba(148,163,184,.15); background:var(--panel); box-shadow:var(--shadow) }
     .btn.primary { background:linear-gradient(135deg,var(--brand),var(--brand-2)); color:#00121f; font-weight:700; border-color:transparent }
 
-    .modal {
-  background: rgba(20, 20, 30, 0.95);
+.modal {
+  background: rgba(17, 25, 40, 0.55); /* hitam kebiruan transparan */
   border-radius: 16px;
-  padding: 24px; /* padding default */
-  padding-left: 20px;   /* jarak kiri */
-  padding-right: 20px;  /* jarak kanan */
-  backdrop-filter: blur(6px);
+  padding: 24px 20px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 
-  /* Realistic shadow */
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
 }
-
-
+    
     /* Hero */
     .hero { position: relative; padding:72px 0 24px }
     .hero::before {
@@ -107,7 +105,7 @@
     }
     .hero-grid { display:grid; grid-template-columns:1.1fr .9fr; gap:28px; align-items:center; position:relative; z-index:1 }
     .hero-card { background: var(--panel); border:1px solid rgba(148,163,184,.12); padding:22px; border-radius:var(--radius) }
-    .kicker { display:inline-block; padding:6px 10px; border-radius:999px; background:rgba(56,189,248,.12); color:var(--brand-2); font-weight:700; font-size:12px; text-transform:uppercase; margin-top: 16px; margin-bottom: 12px; padding-left: 8px }
+    .kicker { display:inline-block; padding:6px 10px; border-radius:999px; background:rgba(56,189,248,.12); color:var(--brand-2); font-weight:700; font-size:12px; text-transform:uppercase; }
     h1 { font-size:clamp(28px,6vw,50px); line-height:1.1; margin:14px 0 10px }
     .lead { color:var(--muted); font-size:clamp(14px,2.6vw,18px) }
     .hero-cta { display:flex; gap:12px; margin-top:18px; flex-wrap:wrap }
@@ -237,6 +235,7 @@
   </script>
 </body>
 </html>
+
 
 
 
