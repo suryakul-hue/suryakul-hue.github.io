@@ -187,23 +187,24 @@
       align-items: center; 
       justify-content: center; 
       gap: 8px; 
+      color: white; 
     }
 
     .fading-text span {
-        background: linear-gradient(45deg, #e5e7eb, #94a3b8, #475569);
-        background-size: 200% auto;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        animation: fading-text-gradient 5s linear infinite alternate;
+        background: none;
+        -webkit-background-clip: unset;
+        -webkit-text-fill-color: unset;
+        color: white; 
+        animation: none;
     }
 
     .fading-text .kanji {
         font-family: 'Inter', system-ui, 'Segoe UI', sans-serif; 
-        background: linear-gradient(45deg, #e5e7eb, #94a3b8, #475569); 
-        background-size: 200% auto;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        animation: fading-text-gradient 5s linear infinite alternate;
+        background: none;
+        -webkit-background-clip: unset;
+        -webkit-text-fill-color: unset;
+        color: white; 
+        animation: none;
     }
 
     @keyframes fading-text-gradient {
@@ -296,11 +297,11 @@
       <div class="profile-section">
         <img class="profile-picture" src="https://media1.tenor.com/m/urChzCzOV3QAAAAd/kaoru-hana-wa-rin-to-saku-the-fragrant-flower.gif" alt="Profile Picture"/>
         <div class="profile-name-container">
-            <h3 class="profile-name">ysurtod</h3>
+          <h3 class="profile-name">ysurtod</h3>
         </div>
         <p class="fading-text">
-            <span>Surya Putra Adhi Prastya</span> 
-            <span class="kanji">悪役</span>
+          <span>Surya Putra Adhi Prastya</span> 
+          <span class="kanji">悪役</span>
         </p>
       </div>
       <div class="contact-list">
@@ -327,7 +328,7 @@
         </a>
         <a class="contact-item" href="https://wa.me/62085934709205" target="_blank">
             <div class="icon">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/512px-WhatsApp.svg.png" alt="WhatsApp Logo"/>
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/512px-WhatsApp.svg.png" alt="WhatsApp Logo"/>
             </div>
             <span class="text">WhatsApp</span>
         </a>
