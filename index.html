@@ -68,22 +68,10 @@
     .pay{display:flex; gap:12px; flex-wrap:wrap; align-items:center; justify-content:center; margin-top:10px}
     .pay span{padding:6px 10px; border-radius:8px; border:1px solid rgba(148,163,184,.18); background:var(--panel)}
 
-    /* Cart Drawer */
-    .checkout{position:fixed; right:0; top:0; background:var(--panel); width:min(380px,92vw); height:100%; border-left:1px solid rgba(148,163,184,.18); box-shadow:-10px 0 30px rgba(2,6,23,.4); padding:18px; overflow-y:auto; display:none; z-index:70}
-    .checkout h2{margin:0 0 10px}
-    .checkout-empty{opacity:.7; text-align:center; padding:10px 0}
-    .checkout-item{display:flex; flex-direction:column; border-bottom:1px dashed rgba(148,163,184,.16); padding:10px 0; gap:6px}
-    .item-title{font-weight:600}
-    .item-controls{display:flex; justify-content:space-between; align-items:center; gap:10px}
-    .quantity-btn{background:linear-gradient(135deg,var(--brand),var(--brand-2)); color:#00121f; border:none; border-radius:10px; padding:6px 10px; cursor:pointer}
-    .remove-btn{background:#ef4444; color:#fff; border:none; border-radius:10px; padding:6px 10px; cursor:pointer}
-    .total{display:flex; justify-content:space-between; margin-top:12px; font-weight:800}
-    .clear-cart{background:#f59e0b; color:#00121f; border:none; border-radius:12px; padding:10px 12px; cursor:pointer; width:100%; margin-top:12px}
-    .checkout-actions{display:flex; gap:10px; margin-top:10px}
-
     /* Modal + slider */
     .modal-backdrop{
-      position:fixed; inset:0; display:none; align-items:center; justify-content:center; z-index:80;
+      position:fixed; inset:0; display:none; align-items:center; justify-content:center;
+      z-index:90; /* Ditingkatkan untuk memastikan di atas segalanya */
       background:var(--overlay);
       backdrop-filter: blur(6px) saturate(1.1);
     }
@@ -94,12 +82,28 @@
       box-shadow: 0 20px 60px rgba(0,0,0,.45), 0 0 0 1px rgba(148,163,184,.2) inset;
       opacity:0; transform: scale(.95); animation: modalIn .35s ease-out forwards;
       position:relative;
+      z-index:100; /* Lebih tinggi dari backdrop */
     }
     @media(max-width:900px){ .modal{grid-template-columns:1fr;} }
 
-    .modal .left{display:flex; flex-direction:column; gap:10px}
-    .viewer{background:#08101a; border-radius:10px; overflow:hidden; min-height:280px; aspect-ratio:16/9; display:grid; place-items:center; position:relative}
-    .viewer img, .viewer iframe{width:100%; height:100%; object-fit:cover; border:0}
+    .modal .left{
+      display:flex; flex-direction:column; gap:10px;
+      position:relative;
+      z-index:2;
+    }
+    .modal .viewer{
+      background:#08101a; border-radius:10px; overflow:hidden; min-height:280px; aspect-ratio:16/9;
+      display:grid; place-items:center; position:relative;
+      z-index:1;
+    }
+    .viewer img, .viewer iframe{
+      width:100%; height:100%; object-fit:cover; border:0;
+      display:block; /* Penting untuk iframe agar tidak ada margin */
+    }
+    .viewer img {
+      object-fit: contain; /* Untuk gambar, agar tidak terpotong */
+    }
+
     .thumbs{
       display:flex; gap:10px; overflow-x:auto; padding:6px 2px;
       -webkit-overflow-scrolling: touch; scrollbar-width: thin;
@@ -118,12 +122,49 @@
       background:linear-gradient(135deg,var(--brand),var(--brand-2)); color:#00121f;
     }
 
-    .modal .right{display:flex; flex-direction:column; gap:10px}
+    .modal .right{
+      display:flex; flex-direction:column; gap:10px;
+      z-index:3; /* Pastikan ini lebih tinggi dari .left */
+      position:relative;
+    }
     .modal h2{margin:0}
     .modal p{margin:0; color:var(--muted)}
     .modal .price{font-weight:800; color:var(--brand)}
-    .modal .actions{display:flex; gap:10px; margin-top:12px}
-    .close-x{position:absolute; right:14px; top:12px; background:transparent; border:1px solid rgba(148,163,184,.25); color:var(--muted); cursor:pointer; font-size:18px; border-radius:10px; padding:6px 10px}
+    .modal .actions{
+      display:flex; gap:10px; margin-top:12px;
+      position:relative;
+      z-index:4; /* Tombol ini harus di atas */
+    }
+    .close-x{
+      position:absolute; right:14px; top:12px; background:transparent; border:1px solid rgba(148,163,184,.25); color:var(--muted); cursor:pointer; font-size:18px; border-radius:10px; padding:6px 10px;
+      z-index:101; /* Paling tinggi agar selalu bisa diakses */
+    }
+
+    .modal {
+  /* ... kode lain ... */
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  /* Tambahan: pastikan modal tidak melebihi tinggi layar */
+  max-height: 90vh; 
+  /* Tambahan: overflow untuk mengaktifkan scrollbar jika konten melebihi max-height */
+  overflow-y: auto; 
+}
+
+/* Aturan untuk tampilan di layar kecil */
+@media (max-width: 900px) {
+  .modal {
+    grid-template-columns: 1fr;
+    /* Tambahan: atur padding agar tidak terlalu mepet */
+    padding: 10px; 
+  }
+}
+
+/* Pastikan area di dalam modal bisa di-scroll juga */
+.modal .left, .modal .right {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
 
     /* Animations */
     @keyframes fadeInBlock {
@@ -139,27 +180,6 @@
       from { opacity:0; transform:scale(.95); }
       to   { opacity:1; transform:scale(1); }
     }
-    .modal-content img {
-  max-width: 100%;
-  max-height: 70vh; /* biar nggak lebih tinggi dari layar HP */
-  width: auto;
-  height: auto;
-  object-fit: contain;
-  border-radius: 8px;
-}
-  .modal {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px; /* biar ada ruang di sisi HP */
-}
-
-.modal-content {
-  max-width: 95%;
-  max-height: 90vh;
-  overflow: hidden;
-}
-
   </style>
 </head>
 <body>
@@ -179,7 +199,6 @@
   </header>
 
   <main class="container">
-    <!-- Hero / About -->
     <section class="hero">
       <div class="about animate-fade">
         <div>
@@ -189,7 +208,6 @@
       </div>
     </section>
 
-    <!-- Toolbar: search + kategori -->
     <section class="toolbar" aria-label="Pencarian dan kategori">
       <input class="search" id="search" type="search" placeholder="Cari produk (mis. project file, preset)" aria-label="Cari produk" />
       <div class="tabs" role="tablist">
@@ -200,9 +218,7 @@
       </div>
     </section>
 
-    <!-- GRID TOKO -->
     <section id="shop" class="grid" role="list">
-      <!-- Product cards -->
       <article class="product fade-in"
         data-type="project"
         data-tags="project file happier"
@@ -217,8 +233,8 @@
           <div class="meta">
             <span class="price">Free</span>
             <div class="links">
-              <a class="btn" href="#" onclick="addToCart('Happier Project',0);return false;">Add</a>
-              <a class="btn primary" href="#" onclick="buyNow('Happier Project',0);return false;">Buy</a>
+              <a class="btn" href="#" onclick="alert('Fitur keranjang telah dihapus.'); return false;">Add</a>
+              <a class="btn primary" href="#" onclick="window.open(this.closest('.product').dataset.download, '_blank'); return false;">Buy</a>
             </div>
           </div>
         </div>
@@ -236,8 +252,8 @@
           <div class="meta">
             <span class="price">Free</span>
             <div class="links">
-              <a class="btn" href="#" onclick="addToCart('Best Day',0);return false;">Add</a>
-              <a class="btn primary" href="#" onclick="buyNow('Best Day',0);return false;">Buy</a>
+              <a class="btn" href="#" onclick="alert('Fitur keranjang telah dihapus.'); return false;">Add</a>
+              <a class="btn primary" href="#" onclick="window.open(this.closest('.product').dataset.download, '_blank'); return false;">Buy</a>
             </div>
           </div>
         </div>
@@ -255,8 +271,8 @@
           <div class="meta">
             <span class="price">Free</span>
             <div class="links">
-              <a class="btn" href="#" onclick="addToCart('ML Blending Light',0);return false;">Add</a>
-              <a class="btn primary" href="#" onclick="buyNow('ML Blending Light',0);return false;">Buy</a>
+              <a class="btn" href="#" onclick="alert('Fitur keranjang telah dihapus.'); return false;">Add</a>
+              <a class="btn primary" href="#" onclick="window.open(this.closest('.product').dataset.download, '_blank'); return false;">Buy</a>
             </div>
           </div>
         </div>
@@ -274,8 +290,8 @@
           <div class="meta">
             <span class="price">Free</span>
             <div class="links">
-              <a class="btn" href="#" onclick="addToCart('RIGHT NOW PF',0);return false;">Add</a>
-              <a class="btn primary" href="#" onclick="buyNow('RIGHT NOW PF',0);return false;">Buy</a>
+              <a class="btn" href="#" onclick="alert('Fitur keranjang telah dihapus.'); return false;">Add</a>
+              <a class="btn primary" href="#" onclick="window.open(this.closest('.product').dataset.download, '_blank'); return false;">Buy</a>
             </div>
           </div>
         </div>
@@ -293,8 +309,8 @@
           <div class="meta">
             <span class="price">Free</span>
             <div class="links">
-              <a class="btn" href="#" onclick="addToCart('18 Project File',0);return false;">Add</a>
-              <a class="btn primary" href="#" onclick="buyNow('18 Project File',0);return false;">Buy</a>
+              <a class="btn" href="#" onclick="alert('Fitur keranjang telah dihapus.'); return false;">Add</a>
+              <a class="btn primary" href="#" onclick="window.open(this.closest('.product').dataset.download, '_blank'); return false;">Buy</a>
             </div>
           </div>
         </div>
@@ -303,7 +319,7 @@
       <article class="product fade-in" data-type="project" data-tags="lady killer happier project"
         data-desc="Lady Killer project: includes transitions and title comps."
         data-download="https://payhip.com/b/lUaDn"
-        data-video="https://youtu.be/7l3VjQwXqk8?si=5wNAI6g13nwkaLcN" 
+        data-video="https://youtu.be/7l3VjQwXqk8?si=5wNAI6g13nwkaLcN"
         data-images='["https://images2.imgbox.com/08/e2/uMqHdWXl_o.png"]'
         role="listitem">
         <div class="thumb"><img src="https://images2.imgbox.com/08/e2/uMqHdWXl_o.png" alt="Preview produk: Lady Killer"/></div>
@@ -312,8 +328,8 @@
           <div class="meta">
             <span class="price">Free</span>
             <div class="links">
-              <a class="btn" href="#" onclick="addToCart('Lady Killer',0);return false;">Add</a>
-              <a class="btn primary" href="#" onclick="buyNow('Lady Killer',0);return false;">Buy</a>
+              <a class="btn" href="#" onclick="alert('Fitur keranjang telah dihapus.'); return false;">Add</a>
+              <a class="btn primary" href="#" onclick="window.open(this.closest('.product').dataset.download, '_blank'); return false;">Buy</a>
             </div>
           </div>
         </div>
@@ -321,26 +337,12 @@
     </section>
   </main>
 
-  <!-- Drawer Keranjang -->
-  <aside class="checkout" id="checkout" aria-hidden="true" role="dialog" aria-label="Keranjang belanja">
-    <h2>Keranjang</h2>
-    <div id="checkout-items"></div>
-    <div class="total"><span>Total</span> <span>Rp <span id="total-price">0</span></span></div>
-    <div class="checkout-actions">
-      <button class="btn" onclick="toggleCheckout()">Close</button>
-      <button class="btn primary" onclick="checkout()">Checkout</button>
-    </div>
-    <button class="clear-cart" onclick="clearCart()">Remove All</button>
-  </aside>
-
-  <!-- Modal backdrop + modal -->
   <div class="modal-backdrop" id="productModal" aria-hidden="true">
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
       <button class="close-x" id="modalClose" aria-label="Tutup">✕</button>
       <div class="left">
         <div class="viewer" id="viewer">
           <img id="viewerImg" src="" alt="" />
-          <!-- iframe video akan dibuat/dihapus via JS -->
         </div>
         <div class="thumbs" id="thumbs" aria-label="Thumbnail media"></div>
       </div>
@@ -366,308 +368,249 @@
   </footer>
 
   <script>
-    // Theme toggles
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Tahun footer
-    document.getElementById('year').textContent = new Date().getFullYear();
+      const tabs = document.querySelectorAll('.tab');
+      const search = document.getElementById('search');
+      const cards = [...document.querySelectorAll('.product')];
+      let active = 'all';
 
-    // Tabs + Search filter
-    const tabs = document.querySelectorAll('.tab');
-    const search = document.getElementById('search');
-    const cards = [...document.querySelectorAll('.product')];
-    let active = 'all';
-    function apply(){
-      const q = (search.value || '').toLowerCase();
-      cards.forEach(c=>{
-        const type = c.dataset.type;
-        const tags = (c.dataset.tags||'').toLowerCase();
-        const title = c.querySelector('.title').textContent.toLowerCase();
-        const okType = active==='all' || type===active;
-        const okSearch = !q || tags.includes(q) || title.includes(q);
-        c.style.display = okType && okSearch ? '' : 'none';
+      function apply(){
+        const q = (search.value || '').toLowerCase();
+        cards.forEach(c=>{
+          const type = c.dataset.type;
+          const tags = (c.dataset.tags||'').toLowerCase();
+          const title = c.querySelector('.title').textContent.toLowerCase();
+          const okType = active==='all' || type===active;
+          const okSearch = !q || tags.includes(q) || title.includes(q);
+          c.style.display = okType && okSearch ? '' : 'none';
+        });
+      }
+
+      tabs.forEach(t=>t.addEventListener('click',()=>{
+        tabs.forEach(x=>x.classList.remove('active'));
+        t.classList.add('active'); active=t.dataset.filter; apply();
+      }));
+      search.addEventListener('input', apply);
+
+      document.querySelectorAll('a,button,input').forEach(el=>{
+        el.addEventListener('focus',()=>{ el.style.boxShadow = '0 0 0 4px rgba(56,189,248,.35)'; });
+        el.addEventListener('blur',()=>{ el.style.boxShadow = 'none'; });
       });
-    }
-    tabs.forEach(t=>t.addEventListener('click',()=>{
-      tabs.forEach(x=>x.classList.remove('active'));
-      t.classList.add('active'); active=t.dataset.filter; apply();
-    }));
-    // A11y focus ring
-    document.querySelectorAll('a,button,input').forEach(el=>{
-      el.addEventListener('focus',()=>{ el.style.boxShadow = '0 0 0 4px rgba(56,189,248,.35)'; });
-      el.addEventListener('blur',()=>{ el.style.boxShadow = 'none'; });
-    });
 
-    // ====== MODAL + SLIDER (Video + Images) ======
-    const modalBackdrop = document.getElementById('productModal');
-    const viewer = document.getElementById('viewer');
-    const viewerImg = document.getElementById('viewerImg');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalPrice = document.getElementById('modalPrice');
-    const modalDesc = document.getElementById('modalDesc');
-    const modalAdd = document.getElementById('modalAdd');
-    const modalBuy = document.getElementById('modalBuy');
-    const modalclose = document.getElementById('modalClose');
-    const thumbsWrap = document.getElementById('thumbs');
+      const modalBackdrop = document.getElementById('productModal');
+      const viewer = document.getElementById('viewer');
+      const viewerImg = document.getElementById('viewerImg');
+      const modalTitle = document.getElementById('modalTitle');
+      const modalPrice = document.getElementById('modalPrice');
+      const modalDesc = document.getElementById('modalDesc');
+      const modalAdd = document.getElementById('modalAdd');
+      const modalBuy = document.getElementById('modalBuy');
+      const modalClose = document.getElementById('modalClose');
+      const thumbsWrap = document.getElementById('thumbs');
 
-    let media = [];         // [{type:'video'|'image', url:'...', thumb:'...'}]
-    let currentIndex = 0;
-    let currentProduct = null; // {name, price, download}
-    let activeIframe = null;
+      let media = [];
+      let currentIndex = 0;
+      let currentProduct = null;
+      let activeIframe = null;
 
-    function lockScroll(lock){ document.body.style.overflow = lock ? 'hidden' : ''; }
+      function lockScroll(lock){ document.body.style.overflow = lock ? 'hidden' : ''; }
 
-    function parseYouTubeId(url){
-      if(!url) return null;
-      try{
-        const u = new URL(url);
-        if (u.hostname.includes('youtu.be')) return u.pathname.slice(1);
-        if (u.hostname.includes('youtube.com')){
-          if (u.pathname.startsWith('/watch')) return u.searchParams.get('v');
-          if (u.pathname.startsWith('/shorts/')) return u.pathname.split('/')[2];
-          if (u.pathname.startsWith('/embed/')) return u.pathname.split('/')[2];
-        }
-        return null;
-      }catch(e){ return null; }
-    }
-    function buildEmbedUrl(fullUrl){
-      const id = parseYouTubeId(fullUrl);
-      if(!id) return null;
-      const params = new URLSearchParams({
-        autoplay: '1', mute: '1', controls: '1', rel: '0',
-        playsinline: '1', modestbranding: '1', enablejsapi: '1'
-      });
-      return `https://www.youtube.com/embed/${id}?${params.toString()}`;
-    }
-    function ytThumb(fullUrl){
-      const id = parseYouTubeId(fullUrl);
-      return id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : '';
-    }
-
-    function stopVideo(){
-      if(activeIframe){
+      function parseYouTubeId(url){
+        if(!url) return null;
         try{
-          activeIframe.contentWindow.postMessage(JSON.stringify({
-            event:"command", func:"stopVideo", args:""
-          }), "*");
-        }catch(e){}
-        // Remove iframe to fully stop on close
-        activeIframe.remove();
-        activeIframe = null;
+          const u = new URL(url);
+          if (u.hostname.includes('youtu.be')) return u.pathname.slice(1);
+          if (u.hostname.includes('youtube.com')){
+            if (u.pathname.startsWith('/watch')) return u.searchParams.get('v');
+            if (u.pathname.startsWith('/shorts/')) return u.pathname.split('/')[2];
+            if (u.pathname.startsWith('/embed/')) return u.pathname.split('/')[2];
+          }
+          return null;
+        }catch(e){ return null; }
       }
-    }
 
-    function showMedia(index){
-      // if leaving a video, stop it
-      if(media[currentIndex] && media[currentIndex].type==='video') stopVideo();
+      function buildEmbedUrl(fullUrl) {
+        const id = parseYouTubeId(fullUrl);
+        if (!id) return null;
+        const params = new URLSearchParams({
+            autoplay: '1',
+            mute: '1',
+            controls: '1',
+            rel: '0',
+            playsinline: '1',
+            modestbranding: '1',
+            enablejsapi: '1'
+        });
+        return `https://www.youtube.com/embed/${id}?${params.toString()}`;
+      }
 
-      currentIndex = index;
+      function ytThumb(fullUrl){
+        const id = parseYouTubeId(fullUrl);
+        return id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : '';
+      }
 
-      const item = media[currentIndex];
-      // reset viewer
-      viewerImg.style.display = 'none';
-      // remove leftover iframe if any
-      const oldIframe = viewer.querySelector('iframe');
-      if(oldIframe) oldIframe.remove();
-
-      if(item.type==='image'){
-        viewerImg.src = item.url;
-        viewerImg.alt = modalTitle.textContent || 'Preview';
-        viewerImg.style.display = 'block';
-      } else {
-        // create iframe with autoplay mute
-        const iframe = document.createElement('iframe');
-        iframe.allow = "autoplay; encrypted-media; picture-in-picture";
-        iframe.src = buildEmbedUrl(item.url);
-        iframe.style.width = "100%";
-        iframe.style.height = "100%";
-        iframe.style.border = "0";
-        viewer.appendChild(iframe);
-        activeIframe = iframe;
-     }
-
-      // update active thumb
-      [...thumbsWrap.children].forEach((el,i)=> el.classList.toggle('active', i===currentIndex));
-      // auto scroll active thumb into view
-      const activeThumb = thumbsWrap.children[currentIndex];
-      if(activeThumb) activeThumb.scrollIntoView({ inline:'center', block:'nearest', behavior:'smooth' });
-    }
-
-    function renderThumbs(){
-      thumbsWrap.innerHTML = '';
-      media.forEach((m,i)=>{
-        const b = document.createElement('button');
-        b.className = 'tbtn'+(i===currentIndex?' active':'');
-        b.type = 'button';
-        const img = document.createElement('img');
-        img.src = m.thumb || m.url;
-        img.alt = m.type==='video' ? 'Video' : 'Gambar '+(i+1);
-        b.appendChild(img);
-        if(m.type==='video'){
-          const tag = document.createElement('span');
-          tag.className = 'play';
-          tag.textContent = '▶ Video';
-          b.appendChild(tag);
+      function stopVideo(){
+        if(activeIframe){
+          try{
+            activeIframe.contentWindow.postMessage(JSON.stringify({
+              event:"command", func:"stopVideo", args:""
+            }), "*");
+          }catch(e){}
+          activeIframe.remove();
+          activeIframe = null;
         }
-        b.addEventListener('click', ()=> showMedia(i));
-        thumbsWrap.appendChild(b);
-      });
-    }
-
-    function openProductModal(productEl){
-      const images = JSON.parse(productEl.dataset.images || '[]');
-      const desc = productEl.dataset.desc || '';
-      const download = productEl.dataset.download || '';
-      const videoURL = productEl.dataset.video || '';
-      const name = productEl.querySelector('.title').textContent;
-      const priceText = productEl.querySelector('.price').textContent;
-
-      // Build media list: video first (if any), then images
-      media = [];
-      if(videoURL){
-        const embed = buildEmbedUrl(videoURL);
-        if(embed) media.push({ type:'video', url: embed, thumb: ytThumb(videoURL) });
       }
-      const fallbackThumb = productEl.querySelector('.thumb img')?.src;
-      const imgList = images.length ? images : (fallbackThumb ? [fallbackThumb] : []);
-      media.push(...imgList.map(u => ({ type:'image', url:u, thumb:u })));
 
-      currentIndex = 0;
-      currentProduct = {
-        name,
-        priceText,
-        download,
-        price: parseInt((priceText || '').replace(/[^0-9]/g,'')) || 0
-      };
+      function showMedia(index){
+        if(media[currentIndex] && media[currentIndex].type==='video') stopVideo();
 
-      modalTitle.textContent = name;
-      modalPrice.textContent = priceText;
-      modalDesc.textContent = desc;
+        currentIndex = index;
 
-      modalAdd.onclick = ()=>{ addToCart(currentProduct.name, currentProduct.price); };
-      modalBuy.onclick = ()=>{ if(currentProduct.download) window.open(currentProduct.download,'_blank'); else alert('Tidak ada link download.'); };
+        const item = media[currentIndex];
+        viewerImg.style.display = 'none';
+        const oldIframe = viewer.querySelector('iframe');
+        if(oldIframe) oldIframe.remove();
 
-      renderThumbs();
-      showMedia(0);
+        if(item.type==='image'){
+          viewerImg.src = item.url;
+          viewerImg.alt = modalTitle.textContent || 'Preview';
+          viewerImg.style.display = 'block';
+        } else {
+          const iframe = document.createElement('iframe');
+          iframe.allow = "autoplay; encrypted-media; picture-in-picture";
+          iframe.src = buildEmbedUrl(item.url);
+          iframe.style.width = "100%";
+          iframe.style.height = "100%";
+          iframe.style.border = "0";
+          viewer.appendChild(iframe);
+          activeIframe = iframe;
+        }
 
-      modalBackdrop.classList.add('show');
-      modalBackdrop.setAttribute('aria-hidden','false');
-      lockScroll(true);
-      modalClose.focus();
-    }
+        [...thumbsWrap.children].forEach((el,i)=> el.classList.toggle('active', i===currentIndex));
+        const activeThumb = thumbsWrap.children[currentIndex];
+        if(activeThumb) activeThumb.scrollIntoView({ inline:'center', block:'nearest', behavior:'smooth' });
+      }
 
-    function closeProductModal(){
-      stopVideo();
-      modalBackdrop.classList.remove('show');
-      modalBackdrop.setAttribute('aria-hidden','true');
-      lockScroll(false);
-    }
+      function renderThumbs(){
+        thumbsWrap.innerHTML = '';
+        media.forEach((m,i)=>{
+          const b = document.createElement('button');
+          b.className = 'tbtn'+(i===currentIndex?' active':'');
+          b.type = 'button';
+          const img = document.createElement('img');
+          img.src = m.thumb || m.url;
+          img.alt = m.type==='video' ? 'Video' : 'Gambar '+(i+1);
+          b.appendChild(img);
+          if(m.type==='video'){
+            const tag = document.createElement('span');
+            tag.className = 'play';
+            tag.textContent = '▶ Video';
+            b.appendChild(tag);
+          }
+          b.addEventListener('click', ()=> showMedia(i));
+          thumbsWrap.appendChild(b);
+        });
+      }
 
-    // Swipe gesture (mobile)
-    (function attachSwipe(){
-      let sx=0, sy=0, dx=0, dy=0, touching=false;
-      viewer.addEventListener('touchstart', (e)=>{ touching=true; sx=e.touches[0].clientX; sy=e.touches[0].clientY; dx=0; dy=0; }, {passive:true});
-      viewer.addEventListener('touchmove', (e)=>{ if(!touching) return; dx=e.touches[0].clientX - sx; dy=e.touches[0].clientY - sy; }, {passive:true});
-      viewer.addEventListener('touchend', ()=>{
-        if(!touching) return;
-        touching=false;
-        if(Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)){
-          const next = dx < 0;
-          const ni = (currentIndex + (next?1:-1) + media.length) % media.length;
+      function openProductModal(productEl){
+        const images = JSON.parse(productEl.dataset.images || '[]');
+        const desc = productEl.dataset.desc || '';
+        const download = productEl.dataset.download || '';
+        const videoURL = productEl.dataset.video || '';
+        const name = productEl.querySelector('.title').textContent;
+        const priceText = productEl.querySelector('.price').textContent;
+
+        media = [];
+        if(videoURL){
+          const embed = buildEmbedUrl(videoURL);
+          if(embed) media.push({ type:'video', url: embed, thumb: ytThumb(videoURL) });
+        }
+        const fallbackThumb = productEl.querySelector('.thumb img')?.src;
+        const imgList = images.length ? images : (fallbackThumb ? [fallbackThumb] : []);
+        media.push(...imgList.map(u => ({ type:'image', url:u, thumb:u })));
+
+        currentIndex = 0;
+        currentProduct = {
+          name,
+          priceText,
+          download,
+          price: parseInt((priceText || '').replace(/[^0-9]/g,'')) || 0
+        };
+
+        modalTitle.textContent = name;
+        modalPrice.textContent = priceText;
+        modalDesc.textContent = desc;
+
+        modalAdd.onclick = ()=>{ alert('Fitur keranjang telah dihapus.'); };
+        modalBuy.onclick = ()=>{ if(currentProduct.download) window.open(currentProduct.download,'_blank'); else alert('Tidak ada link download.'); };
+
+        renderThumbs();
+        showMedia(0);
+
+        modalBackdrop.classList.add('show');
+        modalBackdrop.setAttribute('aria-hidden','false');
+        lockScroll(true);
+        modalClose.focus();
+      }
+
+      function closeProductModal(){
+        stopVideo();
+        modalBackdrop.classList.remove('show');
+        modalBackdrop.setAttribute('aria-hidden','true');
+        lockScroll(false);
+      }
+
+      (function attachSwipe(){
+        let sx=0, sy=0, dx=0, dy=0, touching=false;
+        viewer.addEventListener('touchstart', (e)=>{ touching=true; sx=e.touches[0].clientX; sy=e.touches[0].clientY; dx=0; dy=0; }, {passive:true});
+        viewer.addEventListener('touchmove', (e)=>{ if(!touching) return; dx=e.touches[0].clientX - sx; dy=e.touches[0].clientY - sy; }, {passive:true});
+        viewer.addEventListener('touchend', ()=>{
+          if(!touching) return;
+          touching=false;
+          if(Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)){
+            const next = dx < 0;
+            const ni = (currentIndex + (next?1:-1) + media.length) % media.length;
+            showMedia(ni);
+          }
+        });
+      })();
+
+      document.addEventListener('keydown', (e)=>{
+        const shown = modalBackdrop.classList.contains('show');
+        if(!shown) return;
+        if(e.key === 'Escape') closeProductModal();
+        if(e.key === 'ArrowLeft'){
+          const ni = (currentIndex - 1 + media.length) % media.length;
+          showMedia(ni);
+        }
+        if(e.key === 'ArrowRight'){
+          const ni = (currentIndex + 1) % media.length;
           showMedia(ni);
         }
       });
-    })();
 
-    // Keyboard: ESC close, arrows navigate
-    document.addEventListener('keydown', (e)=>{
-      const shown = modalBackdrop.classList.contains('show');
-      if(!shown) return;
-      if(e.key === 'Escape') closeProductModal();
-      if(e.key === 'ArrowLeft'){
-        const ni = (currentIndex - 1 + media.length) % media.length;
-        showMedia(ni);
-      }
-      if(e.key === 'ArrowRight'){
-        const ni = (currentIndex + 1) % media.length;
-        showMedia(ni);
-      }
-    });
+      modalClose.addEventListener('click', closeProductModal);
+      modalBackdrop.addEventListener('click', (e)=>{ if(e.target===modalBackdrop) closeProductModal(); });
 
-    const modalClose = document.getElementById('modalClose');
-    modalClose.addEventListener('click', closeProductModal);
-    modalBackdrop.addEventListener('click', (e)=>{ if(e.target===modalBackdrop) closeProductModal(); });
-
-    // Open modal saat klik card (kecuali klik pada tombol di dalamnya)
-    document.querySelectorAll('.product').forEach(p=>{
-      p.addEventListener('click', (e)=>{
-        if(e.target.closest('.links')) return; // biar tombol Add/Buy tetap berfungsi normal
-        openProductModal(p);
+      document.querySelectorAll('.product').forEach(p=>{
+        p.addEventListener('click', (e)=>{
+          // Pastikan klik hanya pada tombol Add/Buy yang langsung ditangani
+          if(e.target.closest('.links') && (e.target.tagName === 'A' || e.target.tagName === 'BUTTON')) {
+            // Biarkan default action untuk tombol Buy atau alert untuk tombol Add
+            return;
+          }
+          // Jika bukan tombol Add/Buy di dalam links, buka modal
+          openProductModal(p);
+        });
       });
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+      }, { threshold: .15 });
+      document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
     });
-
-    cards.forEach(card=>{
-  card.addEventListener('click', (e)=>{
-    if(e.target.closest('.btn')) return; // supaya klik tombol Add/Buy nggak buka modal
-    openModal(card);
-  });
-});
-
-function openModal(card){
-  currentProduct = {
-    name: card.querySelector('.title').textContent,
-    price: 0,
-    download: card.dataset.download
-  };
-  modalTitle.textContent = currentProduct.name;
-  modalPrice.textContent = currentProduct.price ? 'Rp '+formatIDR(currentProduct.price) : 'Free';
-  modalDesc.textContent = card.dataset.desc || '';
-  modalAdd.onclick = ()=>addToCart(currentProduct.name,currentProduct.price);
-  modalBuy.onclick = ()=>buyNow(currentProduct.name,currentProduct.price);
-
-  // Bangun media array
-  media = [];
-  if(card.dataset.video) media.push({type:'video',url:card.dataset.video,thumb:ytThumb(card.dataset.video)});
-  try{
-    const imgs = JSON.parse(card.dataset.images||'[]');
-    imgs.forEach(u=>media.push({type:'image',url:u}));
-  }catch(e){}
-  
-  // Thumbnails
-  thumbsWrap.innerHTML='';
-  media.forEach((m,i)=>{
-    const t = document.createElement('div');
-    t.className='tbtn'+(i===0?' active':'');
-    if(m.type==='video'){
-      t.innerHTML=`<img src="${m.thumb}"><div class="play">▶</div>`;
-    }else{
-      t.innerHTML=`<img src="${m.url}">`;
-    }
-    t.onclick=()=>{document.querySelectorAll('.tbtn').forEach(x=>x.classList.remove('active'));t.classList.add('active');showMedia(i);};
-    thumbsWrap.appendChild(t);
-  });
-
-  modalBackdrop.classList.add('show');
-  lockScroll(true);
-  showMedia(0);
-}
-
-modalclose.addEventListener('click',()=>{ stopVideo(); modalBackdrop.classList.remove('show'); lockScroll(false); });
-modalBackdrop.addEventListener('click',(e)=>{ if(e.target===modalBackdrop){ stopVideo(); modalBackdrop.classList.remove('show'); lockScroll(false); }});
-
-
-    // Init
-    updateCartDisplay();
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
-    }, { threshold: .15 });
-    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
