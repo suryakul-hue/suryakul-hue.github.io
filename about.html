@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Surya Putra</title>
+  <title>ysurtod</title>
   <meta name="description" content="Portofolio pribadi untuk menampilkan karya, pengalaman, dan informasi kontak." />
   <meta name="color-scheme" content="light dark" />
   <meta name="theme-color" content="#0ea5e9" />
@@ -35,7 +35,6 @@
     a { color:inherit; text-decoration:none }
     img { max-width:100%; display:block }
 
-    /* Header */
     header {
       position:sticky; top:0; z-index:50; backdrop-filter:saturate(1.2) blur(14px);
       background:linear-gradient(180deg,rgba(2,6,23,.75),rgba(2,6,23,.35));
@@ -52,7 +51,7 @@
     .btn.primary { background:linear-gradient(135deg,var(--brand),var(--brand-2)); color:#00121f; font-weight:700; border-color:transparent }
 
 .modal {
-  background: rgba(17, 25, 40, 0.55); /* hitam kebiruan transparan */
+  background: rgba(17, 25, 40, 0.55);
   border-radius: 16px;
   padding: 24px 20px;
   backdrop-filter: blur(12px);
@@ -62,7 +61,6 @@
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
 }
     
-    /* Hero */
     .hero { position: relative; padding:72px 0 24px }
     .hero::before {
       content: "";
@@ -89,14 +87,14 @@
       animation: moveGrid 10s linear infinite;
     }
     .modal h1 {
-  margin-top: 16px;   /* jarak atas */
-  margin-bottom: 12px; /* jarak bawah */
-  padding-left: 8px;   /* padding kiri */
+  margin-top: 16px; 
+  margin-bottom: 12px;
+  padding-left: 8px;
 }
 
 .modal .lead {
-  margin-bottom: 20px; /* jarak bawah */
-  padding-left: 8px;   /* padding kiri */
+  margin-bottom: 20px; 
+  padding-left: 8px;
 }
 
     @keyframes moveGrid {
@@ -112,7 +110,6 @@
     .badges { display:flex; gap:10px; flex-wrap:wrap; margin-top:16px }
     .badge { padding:8px 12px; border-radius:999px; background:var(--panel); border:1px solid rgba(148,163,184,.18); color:var(--muted); font-size:12px }
 
-    /* Matrix Text */
     #matrix-text {
       font-weight: 800;
       text-transform: uppercase;
@@ -124,10 +121,8 @@
       filter: blur(0);
     }
 
-    /* Footer */
     footer { padding:28px 0 60px; color:var(--muted); text-align:center }
 
-    /* Responsive */
     @media (max-width: 960px){
       .hero-grid { grid-template-columns:1fr }
     }
@@ -150,7 +145,6 @@
   </header>
 
   <main id="home">
-    <!-- HERO -->
     <section class="hero container">
       <div class="hero-grid">
         <div class="modal">
@@ -180,17 +174,14 @@
         </div>
       </div>
     </section>
-    
-    <!-- EXPERIENCE -->
 
   <footer>
     <div class="container">
-      <p>© <span id="year"></span> ysurtod</p>
+      <p>© <span id=""></span>@ysurtod</p>
     </div>
   </footer>
 
   <script>
-    // theme
         const themes = {
           cyberpunk: {
         "--bg": "#0a0f1f",
@@ -203,7 +194,6 @@
         "--ring": "rgba(255,0,255,.35)"
         }
       }
-    // Matrix
     const texts = ["ysurtod", "a Programmer", "a Video Editor", "a Designer"];
     let textIndex = 0;
     const el = document.getElementById("matrix-text");
@@ -229,12 +219,11 @@
 
     startTextRotation();
     setInterval(startTextRotation, 3000);
-
-    // Dynamic year
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 </body>
 </html>
+
 
 
 
