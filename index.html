@@ -141,26 +141,19 @@
     }
 
     .modal {
-  /* ... kode lain ... */
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
-  /* Tambahan: pastikan modal tidak melebihi tinggi layar */
   max-height: 90vh; 
-  /* Tambahan: overflow untuk mengaktifkan scrollbar jika konten melebihi max-height */
   overflow-y: auto; 
 }
 
-/* Aturan untuk tampilan di layar kecil */
 @media (max-width: 900px) {
   .modal {
     grid-template-columns: 1fr;
-    /* Tambahan: atur padding agar tidak terlalu mepet */
     padding: 10px; 
   }
 }
-
-/* Pastikan area di dalam modal bisa di-scroll juga */
 .modal .left, .modal .right {
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
@@ -596,12 +589,9 @@
 
       document.querySelectorAll('.product').forEach(p=>{
         p.addEventListener('click', (e)=>{
-          // Pastikan klik hanya pada tombol Add/Buy yang langsung ditangani
           if(e.target.closest('.links') && (e.target.tagName === 'A' || e.target.tagName === 'BUTTON')) {
-            // Biarkan default action untuk tombol Buy atau alert untuk tombol Add
             return;
           }
-          // Jika bukan tombol Add/Buy di dalam links, buka modal
           openProductModal(p);
         });
       });
@@ -614,3 +604,4 @@
   </script>
 </body>
 </html>
+
