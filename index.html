@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ysurtod</title>
-  <meta name="description" content="Project ysurtod." />
+  <meta name="description" content="Toko digital untuk menjual file proyek, preset, desain, dan produk digital lainnya." />
   <meta name="color-scheme" content="light dark" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -325,7 +325,7 @@
           <img id="viewerImg" src="" alt="" />
         </div>
         <div class="thumbs" id="thumbs" aria-label="Thumbnail media"></div>
-      </div>
+        </div>
       <div class="right">
         <h2 id="modalTitle">Product Title</h2>
         <div class="price" id="modalPrice">Rp 0</div>
@@ -339,12 +339,17 @@
 
   <footer>
     <div class="container" style="text-align:center">
-      <div>©ysurtod</div>
+      <div>© <span id="year"></span> ysurtod</div>
+      <div class="pay">
+        <span>Maestro</span><span>Mastercard</span><span>PayPal</span><span>Visa</span><span>Discover</span>
+      </div>
     </div>
   </footer>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('year').textContent = new Date().getFullYear(); // Fixed: Added id="year" to span
+
       const tabs = document.querySelectorAll('.tab');
       const search = document.getElementById('search');
       const cards = [...document.querySelectorAll('.product')];
@@ -379,7 +384,7 @@
       const modalTitle = document.getElementById('modalTitle');
       const modalPrice = document.getElementById('modalPrice');
       const modalDesc = document.getElementById('modalDesc');
-      // const modalAdd = document.getElementById('modalAdd'); // Removed from the modal actions in HTML
+      // const modalAdd = document.getElementById('modalAdd'); // Removed: "Add" button is no longer in HTML
       const modalBuy = document.getElementById('modalBuy');
       const modalClose = document.getElementById('modalClose');
       const thumbsWrap = document.getElementById('thumbs');
@@ -485,8 +490,7 @@
           }
           b.addEventListener('click', ()=> showMedia(i));
           thumbsWrap.appendChild(b);
-      }
-);
+        });
       }
 
       function openProductModal(productEl){
@@ -518,7 +522,7 @@
         modalPrice.textContent = priceText;
         modalDesc.textContent = desc;
 
-        // Removed modalAdd.onclick event handler
+        // modalAdd.onclick = ()=>{ alert('Fitur keranjang telah dihapus.'); }; // Removed
         modalBuy.onclick = ()=>{ if(currentProduct.download) window.open(currentProduct.download,'_blank'); else alert('No download link available.'); }; // Changed alert language
 
         renderThumbs();
