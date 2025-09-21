@@ -391,60 +391,6 @@
       tabs.forEach(x=>x.classList.remove('active'));
       t.classList.add('active'); active=t.dataset.filter; apply();
     }));
-    search.addEventListener('input', apply);
-
-    // ===== CART =====
-    let cart = JSON.parse(localStorage.getItem('ys_cart')||'[]');
-    function persist(){ localStorage.setItem('ys_cart', JSON.stringify(cart)); }
-    function addToCart(product, price){
-      const existing = cart.find(item => item.name === product);
-      if (existing) { existing.qty++; }
-      else { cart.push({ name: product, price: price, qty: 1 }); }
-      updateCartDisplay(); openCart();
-    }
-    function buyNow(product, price){ addToCart(product, price); }
-    function removeFromCart(index){ cart.splice(index, 1); updateCartDisplay(); }
-    function changeQuantity(index, delta){
-      cart[index].qty += delta;
-      if (cart[index].qty <= 0) { removeFromCart(index); }
-      else { updateCartDisplay(); }
-    }
-    function clearCart(){ cart = []; updateCartDisplay(); }
-    function formatIDR(v){ return v.toLocaleString('id-ID'); }
-    function updateCartDisplay(){
-      persist();
-      const count = cart.reduce((s,it)=> s + it.qty, 0);
-      document.getElementById('cartCount').textContent = count;
-      const wrap = document.getElementById('checkout-items');
-      wrap.innerHTML = '';
-      let total = 0;
-      if(cart.length===0){
-        wrap.innerHTML = '<p class="checkout-empty">Keranjang kosong</p>';
-      } else {
-        cart.forEach((it,i)=>{
-          total += (it.price||0) * it.qty;
-          const div = document.createElement('div');
-          div.className = 'checkout-item';
-          div.innerHTML = `
-            <div class="item-title">${it.name}</div>
-            <div class="item-controls">
-              <div>
-                <button class="quantity-btn" onclick="changeQuantity(${i}, -1)">-</button>
-                <span style="margin:0 6px">${it.qty}</span>
-                <button class="quantity-btn" onclick="changeQuantity(${i}, 1)">+</button>
-              </div>
-              <div>
-                <span>${it.price?('Rp '+formatIDR(it.price)):'Free'}</span>
-                <button class="remove-btn" onclick="removeFromCart(${i})">Hapus</button>
-              </div>
-            </div>`;
-          wrap.appendChild(div);
-        });
-      }
-      document.getElementById('total-price').textContent = formatIDR(total);
-    }
-    document.getElementById('openCart').addEventListener('click', openCart);
-
     // A11y focus ring
     document.querySelectorAll('a,button,input').forEach(el=>{
       el.addEventListener('focus',()=>{ el.style.boxShadow = '0 0 0 4px rgba(56,189,248,.35)'; });
@@ -718,6 +664,7 @@ modalBackdrop.addEventListener('click',(e)=>{ if(e.target===modalBackdrop){ stop
   </script>
 </body>
 </html>
+
 
 
 
