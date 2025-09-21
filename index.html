@@ -443,27 +443,6 @@
       }
       document.getElementById('total-price').textContent = formatIDR(total);
     }
-    function openCart(){
-      const el = document.getElementById('checkout');
-      el.style.display='block';
-      el.setAttribute('aria-hidden','false');
-    }
-    function toggleCheckout(){
-      const el = document.getElementById('checkout');
-      const shown = getComputedStyle(el).display !== 'none';
-      el.style.display = shown ? 'none' : 'block';
-      el.setAttribute('aria-hidden', shown ? 'true' : 'false');
-    }
-    function checkout(){
-      if(cart.length===0){ alert('Keranjang kosong'); return; }
-      cart.forEach(item=>{
-        const el = [...document.querySelectorAll('.product')].find(p=>p.querySelector('.title').textContent===item.name);
-        if(el){
-          const dl = el.dataset.download;
-          if(dl) window.open(dl, '_blank');
-        }
-      });
-    }
     document.getElementById('openCart').addEventListener('click', openCart);
 
     // A11y focus ring
@@ -739,6 +718,7 @@ modalBackdrop.addEventListener('click',(e)=>{ if(e.target===modalBackdrop){ stop
   </script>
 </body>
 </html>
+
 
 
 
